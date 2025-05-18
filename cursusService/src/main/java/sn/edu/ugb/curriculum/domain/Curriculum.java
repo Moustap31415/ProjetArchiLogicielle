@@ -7,9 +7,6 @@ import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-/**
- * A Curriculum.
- */
 @Entity
 @Table(name = "curriculum")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -28,32 +25,30 @@ public class Curriculum implements Serializable {
     @Column(name = "annee_academique", nullable = false)
     private String anneeAcademique;
 
-    @NotNull
-    @Column(name = "filiere_id", nullable = false)
+    @Column(name = "filiere_id", insertable = false, updatable = false)
     private Long filiereId;
 
-    @NotNull
-    @Column(name = "unite_id", nullable = false)
+    @Column(name = "unite_id", insertable = false, updatable = false)
     private Long uniteId;
 
-    @NotNull
-    @Column(name = "semestre_id", nullable = false)
+    @Column(name = "semestre_id", insertable = false, updatable = false)
     private Long semestreId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "filiere_id")
     @JsonIgnoreProperties(value = { "unites" }, allowSetters = true)
     private Filiere filiere;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unite_id")
     @JsonIgnoreProperties(value = { "matieres", "filiere" }, allowSetters = true)
     private UniteEnseignement unite;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JoinColumn(name = "semestre_id")
     @JsonIgnoreProperties(value = { "curriculums" }, allowSetters = true)
     private Semestre semestre;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -159,8 +154,6 @@ public class Curriculum implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -174,11 +167,9 @@ public class Curriculum implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Curriculum{" +

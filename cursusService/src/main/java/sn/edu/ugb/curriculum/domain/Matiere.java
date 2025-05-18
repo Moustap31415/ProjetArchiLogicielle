@@ -7,9 +7,6 @@ import java.io.Serializable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-/**
- * A Matiere.
- */
 @Entity
 @Table(name = "matiere")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -36,16 +33,14 @@ public class Matiere implements Serializable {
     @Column(name = "credits", nullable = false)
     private Integer credits;
 
-    @NotNull
-    @Column(name = "unite_id", nullable = false)
+    @Column(name = "unite_id", insertable = false, updatable = false)
     private Long uniteId;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JoinColumn(name = "unite_id")
     @JsonIgnoreProperties(value = { "matieres", "filiere" }, allowSetters = true)
     private UniteEnseignement unite;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -125,8 +120,6 @@ public class Matiere implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -140,11 +133,9 @@ public class Matiere implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Matiere{" +
