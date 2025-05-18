@@ -1,0 +1,46 @@
+{
+  "annotations": {
+    "changelogDate": "20250518202643"
+  },
+  "applications": ["Gateway", "cursusService"],
+  "clientRootFolder": "cursusService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "heures",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "credits",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "uniteId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "cursusService",
+  "name": "Matiere",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "uniteEnseignement",
+      "otherEntityRelationshipName": "matieres",
+      "relationshipName": "unite",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

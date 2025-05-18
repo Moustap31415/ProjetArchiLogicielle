@@ -1,0 +1,63 @@
+{
+  "annotations": {
+    "changelogDate": "20250518202943"
+  },
+  "applications": ["Gateway", "noteService"],
+  "clientRootFolder": "noteService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "TypeEvaluation",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "DS,EXAMEN,DM,PROJET,TP"
+    },
+    {
+      "fieldName": "noteMaximale",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "coefficient",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "coursId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "sessionId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "noteService",
+  "name": "Evaluation",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "note",
+      "otherEntityRelationshipName": "evaluation",
+      "relationshipName": "notes",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "sessionExamen",
+      "otherEntityRelationshipName": "evaluations",
+      "relationshipName": "session",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

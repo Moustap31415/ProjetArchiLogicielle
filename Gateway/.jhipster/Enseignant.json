@@ -1,0 +1,44 @@
+{
+  "annotations": {
+    "changelogDate": "20250518202143"
+  },
+  "applications": ["Gateway", "teacherService"],
+  "clientRootFolder": "teacherService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "numeroEnseignant",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "pattern"],
+      "fieldValidateRulesPattern": "E[0-9]+"
+    },
+    {
+      "fieldName": "specialisation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateEmbauche",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "utilisateurId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "teacherService",
+  "name": "Enseignant",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "affectationEnseignement",
+      "otherEntityRelationshipName": "enseignant",
+      "relationshipName": "affectations",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

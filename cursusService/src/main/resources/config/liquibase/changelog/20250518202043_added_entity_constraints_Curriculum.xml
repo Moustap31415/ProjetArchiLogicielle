@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity Curriculum.
+    -->
+    <changeSet id="20250518202043-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="filiere_id"
+                                 baseTableName="curriculum"
+                                 constraintName="fk_curriculum__filiere_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="filiere"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="unite_id"
+                                 baseTableName="curriculum"
+                                 constraintName="fk_curriculum__unite_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="unite_enseignement"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="semestre_id"
+                                 baseTableName="curriculum"
+                                 constraintName="fk_curriculum__semestre_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="semestre"
+                                 />
+    </changeSet>
+</databaseChangeLog>

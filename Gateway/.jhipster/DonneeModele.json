@@ -1,0 +1,35 @@
+{
+  "annotations": {
+    "changelogDate": "20250518203343"
+  },
+  "applications": ["Gateway", "reportingService"],
+  "clientRootFolder": "reportingService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "parametres",
+      "fieldType": "String"
+    }
+  ],
+  "microserviceName": "reportingService",
+  "name": "DonneeModele",
+  "relationships": [
+    {
+      "otherEntityName": "donneeStatistique",
+      "relationshipName": "donnee",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "modeleRapport",
+      "otherEntityRelationshipName": "donnees",
+      "relationshipName": "modele",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

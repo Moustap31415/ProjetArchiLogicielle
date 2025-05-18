@@ -1,0 +1,44 @@
+{
+  "annotations": {
+    "changelogDate": "20250518202043"
+  },
+  "applications": ["Gateway", "studentService"],
+  "clientRootFolder": "studentService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "enCours",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateInscription",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "filiereId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "semestreId",
+      "fieldType": "Long"
+    }
+  ],
+  "microserviceName": "studentService",
+  "name": "Inscription",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "etudiant",
+      "otherEntityRelationshipName": "inscriptions",
+      "relationshipName": "etudiant",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

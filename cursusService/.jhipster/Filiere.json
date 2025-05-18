@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20250518201643"
+  },
+  "applications": ["Gateway", "cursusService"],
+  "clientRootFolder": "cursusService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "creditsTotaux",
+      "fieldType": "Integer"
+    }
+  ],
+  "microserviceName": "cursusService",
+  "name": "Filiere",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "uniteEnseignement",
+      "otherEntityRelationshipName": "filiere",
+      "relationshipName": "unites",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

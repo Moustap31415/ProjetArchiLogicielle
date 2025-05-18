@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20250518201943"
+  },
+  "applications": ["Gateway", "studentService"],
+  "clientRootFolder": "studentService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "statut",
+      "fieldType": "StatutAcademique",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EN_COURS,VALIDE,ABANDON,REDOUBLE"
+    },
+    {
+      "fieldName": "dateInscription",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "semestreId",
+      "fieldType": "Long"
+    }
+  ],
+  "microserviceName": "studentService",
+  "name": "HistoriqueAcademique",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "etudiant",
+      "otherEntityRelationshipName": "historiques",
+      "relationshipName": "etudiant",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

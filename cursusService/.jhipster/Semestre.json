@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20250518201743"
+  },
+  "applications": ["Gateway", "cursusService"],
+  "clientRootFolder": "cursusService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "NomSemestre",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "Semestre1,Semestre2"
+    },
+    {
+      "fieldName": "dateDebut",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateFin",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "cursusService",
+  "name": "Semestre",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "curriculum",
+      "otherEntityRelationshipName": "semestre",
+      "relationshipName": "curriculums",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

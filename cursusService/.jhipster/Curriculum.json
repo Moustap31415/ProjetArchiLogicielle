@@ -1,0 +1,58 @@
+{
+  "annotations": {
+    "changelogDate": "20250518202043"
+  },
+  "applications": ["Gateway", "cursusService"],
+  "clientRootFolder": "cursusService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "anneeAcademique",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "filiereId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "uniteId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "semestreId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "cursusService",
+  "name": "Curriculum",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "filiere",
+      "relationshipName": "filiere",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "uniteEnseignement",
+      "relationshipName": "unite",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "semestre",
+      "otherEntityRelationshipName": "curriculums",
+      "relationshipName": "semestre",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

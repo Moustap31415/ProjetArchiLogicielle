@@ -1,0 +1,55 @@
+{
+  "annotations": {
+    "changelogDate": "20250518201643"
+  },
+  "applications": ["Gateway", "studentService"],
+  "clientRootFolder": "studentService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "numeroEtudiant",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "pattern"],
+      "fieldValidateRulesPattern": "P[0-9]+"
+    },
+    {
+      "fieldName": "dateNaissance",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "formationActuelle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "utilisateurId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "studentService",
+  "name": "Etudiant",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "historiqueAcademique",
+      "otherEntityRelationshipName": "etudiant",
+      "relationshipName": "historiques",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "inscription",
+      "otherEntityRelationshipName": "etudiant",
+      "relationshipName": "inscriptions",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

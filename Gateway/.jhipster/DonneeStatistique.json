@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20250518203243"
+  },
+  "applications": ["Gateway", "reportingService"],
+  "clientRootFolder": "reportingService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "valeur",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateCalcul",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "semestreId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "filiereId",
+      "fieldType": "Long"
+    }
+  ],
+  "microserviceName": "reportingService",
+  "name": "DonneeStatistique",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
