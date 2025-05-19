@@ -259,6 +259,12 @@ jhipster:
         - account
         - api://default
 
+application:
+  user-service:
+    url: "http://localhost:8081"
+  liquibase:
+    async-start: true
+
 # jhipster-needle-add-application-yaml-document
 ---
 # ===================================================================

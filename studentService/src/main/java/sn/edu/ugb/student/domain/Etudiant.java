@@ -1,18 +1,12 @@
 package sn.edu.ugb.student.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-/**
- * A Etudiant.
- */
 @Entity
 @Table(name = "etudiant")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -28,7 +22,6 @@ public class Etudiant implements Serializable {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "P[0-9]+")
     @Column(name = "numero_etudiant", nullable = false, unique = true)
     private String numeroEtudiant;
 
@@ -44,16 +37,6 @@ public class Etudiant implements Serializable {
     @NotNull
     @Column(name = "utilisateur_id", nullable = false)
     private Long utilisateurId;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "etudiant")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "etudiant" }, allowSetters = true)
-    private Set<HistoriqueAcademique> historiques = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "etudiant")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "etudiant" }, allowSetters = true)
-    private Set<Inscription> inscriptions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -133,68 +116,6 @@ public class Etudiant implements Serializable {
 
     public void setUtilisateurId(Long utilisateurId) {
         this.utilisateurId = utilisateurId;
-    }
-
-    public Set<HistoriqueAcademique> getHistoriques() {
-        return this.historiques;
-    }
-
-    public void setHistoriques(Set<HistoriqueAcademique> historiqueAcademiques) {
-        if (this.historiques != null) {
-            this.historiques.forEach(i -> i.setEtudiant(null));
-        }
-        if (historiqueAcademiques != null) {
-            historiqueAcademiques.forEach(i -> i.setEtudiant(this));
-        }
-        this.historiques = historiqueAcademiques;
-    }
-
-    public Etudiant historiques(Set<HistoriqueAcademique> historiqueAcademiques) {
-        this.setHistoriques(historiqueAcademiques);
-        return this;
-    }
-
-    public Etudiant addHistoriques(HistoriqueAcademique historiqueAcademique) {
-        this.historiques.add(historiqueAcademique);
-        historiqueAcademique.setEtudiant(this);
-        return this;
-    }
-
-    public Etudiant removeHistoriques(HistoriqueAcademique historiqueAcademique) {
-        this.historiques.remove(historiqueAcademique);
-        historiqueAcademique.setEtudiant(null);
-        return this;
-    }
-
-    public Set<Inscription> getInscriptions() {
-        return this.inscriptions;
-    }
-
-    public void setInscriptions(Set<Inscription> inscriptions) {
-        if (this.inscriptions != null) {
-            this.inscriptions.forEach(i -> i.setEtudiant(null));
-        }
-        if (inscriptions != null) {
-            inscriptions.forEach(i -> i.setEtudiant(this));
-        }
-        this.inscriptions = inscriptions;
-    }
-
-    public Etudiant inscriptions(Set<Inscription> inscriptions) {
-        this.setInscriptions(inscriptions);
-        return this;
-    }
-
-    public Etudiant addInscriptions(Inscription inscription) {
-        this.inscriptions.add(inscription);
-        inscription.setEtudiant(this);
-        return this;
-    }
-
-    public Etudiant removeInscriptions(Inscription inscription) {
-        this.inscriptions.remove(inscription);
-        inscription.setEtudiant(null);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
