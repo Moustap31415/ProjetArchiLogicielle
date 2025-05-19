@@ -11,9 +11,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import sn.edu.ugb.grade.domain.enumeration.TypeEvaluation;
 
-/**
- * A Evaluation.
- */
 @Entity
 @Table(name = "evaluation")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -45,11 +42,10 @@ public class Evaluation implements Serializable {
     @Column(name = "coefficient", nullable = false)
     private Float coefficient;
 
-    @Column(name = "cours_id")
+    @Column(name = "cours_id", insertable = false, updatable = false)
     private Long coursId;
 
-    @NotNull
-    @Column(name = "session_id", nullable = false)
+    @Column(name = "session_id", insertable = false, updatable = false)
     private Long sessionId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evaluation")
@@ -59,10 +55,9 @@ public class Evaluation implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JoinColumn(name = "session_id")
     @JsonIgnoreProperties(value = { "evaluations" }, allowSetters = true)
     private SessionExamen session;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -199,8 +194,6 @@ public class Evaluation implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -214,11 +207,9 @@ public class Evaluation implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Evaluation{" +

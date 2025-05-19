@@ -8,9 +8,6 @@ import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-/**
- * A Note.
- */
 @Entity
 @Table(name = "note")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -36,19 +33,17 @@ public class Note implements Serializable {
     @Column(name = "date_saisie", nullable = false)
     private Instant dateSaisie;
 
-    @Column(name = "etudiant_id")
+    @Column(name = "etudiant_id", insertable = false, updatable = false)
     private Long etudiantId;
 
-    @NotNull
-    @Column(name = "evaluation_id", nullable = false)
+    @Column(name = "evaluation_id", insertable = false, updatable = false)
     private Long evaluationId;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JoinColumn(name = "evaluation_id")
     @JsonIgnoreProperties(value = { "notes", "session" }, allowSetters = true)
     private Evaluation evaluation;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -141,8 +136,6 @@ public class Note implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -156,11 +149,9 @@ public class Note implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Note{" +
