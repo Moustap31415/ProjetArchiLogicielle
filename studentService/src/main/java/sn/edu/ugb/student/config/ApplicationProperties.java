@@ -2,27 +2,21 @@ package sn.edu.ugb.student.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Properties specific to Student Service.
- * <p>
- * Properties are configured in the {@code application.yml} file.
- * See {@link tech.jhipster.config.JHipsterProperties} for a good example.
- */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
     private final Liquibase liquibase = new Liquibase();
-
-    // jhipster-needle-application-properties-property
+    private final UserService userService = new UserService();
 
     public Liquibase getLiquibase() {
         return liquibase;
     }
 
-    // jhipster-needle-application-properties-property-getter
+    public UserService getUserService() {
+        return userService;
+    }
 
     public static class Liquibase {
-
         private Boolean asyncStart = true;
 
         public Boolean getAsyncStart() {
@@ -33,5 +27,16 @@ public class ApplicationProperties {
             this.asyncStart = asyncStart;
         }
     }
-    // jhipster-needle-application-properties-property-class
+
+    public static class UserService {
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
 }

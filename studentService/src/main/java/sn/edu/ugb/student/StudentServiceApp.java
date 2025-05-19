@@ -15,13 +15,14 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import sn.edu.ugb.student.config.ApplicationProperties;
 import sn.edu.ugb.student.config.CRLFLogConverter;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = "sn.edu.ugb.student.client")
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
