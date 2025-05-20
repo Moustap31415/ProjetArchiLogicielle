@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20250518201743"
+  },
+  "applications": ["Gateway", "teacherService"],
+  "clientRootFolder": "teacherService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "anneeAcademique",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "chargeHoraire",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "coursId",
+      "fieldType": "Long"
+    }
+  ],
+  "microserviceName": "teacherService",
+  "name": "AffectationEnseignement",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "enseignant",
+      "otherEntityRelationshipName": "affectations",
+      "relationshipName": "enseignant",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
