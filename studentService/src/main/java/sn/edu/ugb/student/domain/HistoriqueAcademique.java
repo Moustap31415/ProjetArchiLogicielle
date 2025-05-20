@@ -8,10 +8,8 @@ import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import sn.edu.ugb.student.domain.enumeration.StatutAcademique;
+import sn.edu.ugb.student.service.dto.SemestreDTO;
 
-/**
- * A HistoriqueAcademique.
- */
 @Entity
 @Table(name = "historique_academique")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -38,12 +36,13 @@ public class HistoriqueAcademique implements Serializable {
     @Column(name = "semestre_id")
     private Long semestreId;
 
+    @Transient
+    private SemestreDTO semestre;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(value = { "historiques", "inscriptions" }, allowSetters = true)
     private Etudiant etudiant;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -97,6 +96,14 @@ public class HistoriqueAcademique implements Serializable {
         this.semestreId = semestreId;
     }
 
+    public SemestreDTO getSemestre() {
+        return this.semestre;
+    }
+
+    public void setSemestre(SemestreDTO semestre) {
+        this.semestre = semestre;
+    }
+
     public Etudiant getEtudiant() {
         return this.etudiant;
     }
@@ -109,8 +116,6 @@ public class HistoriqueAcademique implements Serializable {
         this.setEtudiant(etudiant);
         return this;
     }
-
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -125,11 +130,9 @@ public class HistoriqueAcademique implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "HistoriqueAcademique{" +

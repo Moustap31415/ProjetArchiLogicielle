@@ -260,8 +260,10 @@ jhipster:
         - api://default
 
 application:
-  user-service:
+  userService:
     url: "http://localhost:8081"
+  microservices:
+    cursusServiceUrl: "http://localhost:8084"
   liquibase:
     async-start: true
 

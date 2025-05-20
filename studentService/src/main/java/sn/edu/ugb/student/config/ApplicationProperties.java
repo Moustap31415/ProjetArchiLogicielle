@@ -7,6 +7,7 @@ public class ApplicationProperties {
 
     private final Liquibase liquibase = new Liquibase();
     private final UserService userService = new UserService();
+    private final Microservices microservices = new Microservices();
 
     public Liquibase getLiquibase() {
         return liquibase;
@@ -14,6 +15,10 @@ public class ApplicationProperties {
 
     public UserService getUserService() {
         return userService;
+    }
+
+    public Microservices getMicroservices() {
+        return microservices;
     }
 
     public static class Liquibase {
@@ -37,6 +42,18 @@ public class ApplicationProperties {
 
         public void setUrl(String url) {
             this.url = url;
+        }
+    }
+
+    public static class Microservices {
+        private String cursusServiceUrl;
+
+        public String getCursusServiceUrl() {
+            return cursusServiceUrl;
+        }
+
+        public void setCursusServiceUrl(String cursusServiceUrl) {
+            this.cursusServiceUrl = cursusServiceUrl;
         }
     }
 }

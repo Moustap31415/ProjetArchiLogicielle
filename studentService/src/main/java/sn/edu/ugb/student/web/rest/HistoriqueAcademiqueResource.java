@@ -19,14 +19,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sn.edu.ugb.student.repository.HistoriqueAcademiqueRepository;
 import sn.edu.ugb.student.service.HistoriqueAcademiqueService;
 import sn.edu.ugb.student.service.dto.HistoriqueAcademiqueDTO;
+import sn.edu.ugb.student.client.CursusServiceClient;
+import sn.edu.ugb.student.service.dto.SemestreDTO;
 import sn.edu.ugb.student.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-/**
- * REST controller for managing {@link sn.edu.ugb.student.domain.HistoriqueAcademique}.
- */
 @RestController
 @RequestMapping("/api/historique-academiques")
 public class HistoriqueAcademiqueResource {
@@ -39,24 +38,19 @@ public class HistoriqueAcademiqueResource {
     private String applicationName;
 
     private final HistoriqueAcademiqueService historiqueAcademiqueService;
-
     private final HistoriqueAcademiqueRepository historiqueAcademiqueRepository;
+    private final CursusServiceClient cursusServiceClient;
 
     public HistoriqueAcademiqueResource(
         HistoriqueAcademiqueService historiqueAcademiqueService,
-        HistoriqueAcademiqueRepository historiqueAcademiqueRepository
+        HistoriqueAcademiqueRepository historiqueAcademiqueRepository,
+        CursusServiceClient cursusServiceClient
     ) {
         this.historiqueAcademiqueService = historiqueAcademiqueService;
         this.historiqueAcademiqueRepository = historiqueAcademiqueRepository;
+        this.cursusServiceClient = cursusServiceClient;
     }
 
-    /**
-     * {@code POST  /historique-academiques} : Create a new historiqueAcademique.
-     *
-     * @param historiqueAcademiqueDTO the historiqueAcademiqueDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new historiqueAcademiqueDTO, or with status {@code 400 (Bad Request)} if the historiqueAcademique has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PostMapping("")
     public ResponseEntity<HistoriqueAcademiqueDTO> createHistoriqueAcademique(
         @Valid @RequestBody HistoriqueAcademiqueDTO historiqueAcademiqueDTO
@@ -71,16 +65,6 @@ public class HistoriqueAcademiqueResource {
             .body(historiqueAcademiqueDTO);
     }
 
-    /**
-     * {@code PUT  /historique-academiques/:id} : Updates an existing historiqueAcademique.
-     *
-     * @param id the id of the historiqueAcademiqueDTO to save.
-     * @param historiqueAcademiqueDTO the historiqueAcademiqueDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated historiqueAcademiqueDTO,
-     * or with status {@code 400 (Bad Request)} if the historiqueAcademiqueDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the historiqueAcademiqueDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/{id}")
     public ResponseEntity<HistoriqueAcademiqueDTO> updateHistoriqueAcademique(
         @PathVariable(value = "id", required = false) final Long id,
@@ -104,17 +88,6 @@ public class HistoriqueAcademiqueResource {
             .body(historiqueAcademiqueDTO);
     }
 
-    /**
-     * {@code PATCH  /historique-academiques/:id} : Partial updates given fields of an existing historiqueAcademique, field will ignore if it is null
-     *
-     * @param id the id of the historiqueAcademiqueDTO to save.
-     * @param historiqueAcademiqueDTO the historiqueAcademiqueDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated historiqueAcademiqueDTO,
-     * or with status {@code 400 (Bad Request)} if the historiqueAcademiqueDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the historiqueAcademiqueDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the historiqueAcademiqueDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<HistoriqueAcademiqueDTO> partialUpdateHistoriqueAcademique(
         @PathVariable(value = "id", required = false) final Long id,
@@ -140,12 +113,6 @@ public class HistoriqueAcademiqueResource {
         );
     }
 
-    /**
-     * {@code GET  /historique-academiques} : get all the historiqueAcademiques.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of historiqueAcademiques in body.
-     */
     @GetMapping("")
     public ResponseEntity<List<HistoriqueAcademiqueDTO>> getAllHistoriqueAcademiques(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -156,25 +123,25 @@ public class HistoriqueAcademiqueResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /historique-academiques/:id} : get the "id" historiqueAcademique.
-     *
-     * @param id the id of the historiqueAcademiqueDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the historiqueAcademiqueDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<HistoriqueAcademiqueDTO> getHistoriqueAcademique(@PathVariable("id") Long id) {
         LOG.debug("REST request to get HistoriqueAcademique : {}", id);
         Optional<HistoriqueAcademiqueDTO> historiqueAcademiqueDTO = historiqueAcademiqueService.findOne(id);
+
+        historiqueAcademiqueDTO.ifPresent(dto -> {
+            if (dto.getSemestreId() != null) {
+                try {
+                    SemestreDTO semestreDTO = cursusServiceClient.getSemestre(dto.getSemestreId());
+                    dto.setSemestre(semestreDTO);
+                } catch (Exception e) {
+                    LOG.error("Error fetching semestre details", e);
+                }
+            }
+        });
+
         return ResponseUtil.wrapOrNotFound(historiqueAcademiqueDTO);
     }
 
-    /**
-     * {@code DELETE  /historique-academiques/:id} : delete the "id" historiqueAcademique.
-     *
-     * @param id the id of the historiqueAcademiqueDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHistoriqueAcademique(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete HistoriqueAcademique : {}", id);
