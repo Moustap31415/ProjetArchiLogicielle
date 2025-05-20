@@ -1,29 +1,20 @@
 package sn.edu.ugb.student.service.dto;
 
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import sn.edu.ugb.student.domain.enumeration.StatutAcademique;
 
-/**
- * A DTO for the {@link sn.edu.ugb.student.domain.HistoriqueAcademique} entity.
- */
-@SuppressWarnings("common-java:DuplicatedBlocks")
 public class HistoriqueAcademiqueDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Long id;
-
-    @NotNull
     private StatutAcademique statut;
-
-    @NotNull
     private Instant dateInscription;
-
+    private Long etudiantId;
     private Long semestreId;
-
-    @NotNull
-    private EtudiantDTO etudiant;
+    private SemestreDTO semestre;
 
     public Long getId() {
         return id;
@@ -49,6 +40,14 @@ public class HistoriqueAcademiqueDTO implements Serializable {
         this.dateInscription = dateInscription;
     }
 
+    public Long getEtudiantId() {
+        return etudiantId;
+    }
+
+    public void setEtudiantId(Long etudiantId) {
+        this.etudiantId = etudiantId;
+    }
+
     public Long getSemestreId() {
         return semestreId;
     }
@@ -57,44 +56,36 @@ public class HistoriqueAcademiqueDTO implements Serializable {
         this.semestreId = semestreId;
     }
 
-    public EtudiantDTO getEtudiant() {
-        return etudiant;
+    public SemestreDTO getSemestre() {
+        return semestre;
     }
 
-    public void setEtudiant(EtudiantDTO etudiant) {
-        this.etudiant = etudiant;
+    public void setSemestre(SemestreDTO semestre) {
+        this.semestre = semestre;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof HistoriqueAcademiqueDTO)) {
-            return false;
-        }
-
-        HistoriqueAcademiqueDTO historiqueAcademiqueDTO = (HistoriqueAcademiqueDTO) o;
-        if (this.id == null) {
-            return false;
-        }
-        return Objects.equals(this.id, historiqueAcademiqueDTO.id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HistoriqueAcademiqueDTO that = (HistoriqueAcademiqueDTO) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(id);
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "HistoriqueAcademiqueDTO{" +
-            "id=" + getId() +
-            ", statut='" + getStatut() + "'" +
-            ", dateInscription='" + getDateInscription() + "'" +
-            ", semestreId=" + getSemestreId() +
-            ", etudiant=" + getEtudiant() +
-            "}";
+            "id=" + id +
+            ", statut=" + statut +
+            ", dateInscription=" + dateInscription +
+            ", etudiantId=" + etudiantId +
+            ", semestreId=" + semestreId +
+            ", semestre=" + semestre +
+            '}';
     }
 }

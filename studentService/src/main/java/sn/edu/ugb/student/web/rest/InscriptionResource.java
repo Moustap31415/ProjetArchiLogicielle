@@ -16,17 +16,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import sn.edu.ugb.student.client.CursusServiceClient;
 import sn.edu.ugb.student.repository.InscriptionRepository;
 import sn.edu.ugb.student.service.InscriptionService;
+import sn.edu.ugb.student.service.dto.FiliereDTO;
 import sn.edu.ugb.student.service.dto.InscriptionDTO;
+import sn.edu.ugb.student.service.dto.SemestreDTO;
 import sn.edu.ugb.student.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-/**
- * REST controller for managing {@link sn.edu.ugb.student.domain.Inscription}.
- */
 @RestController
 @RequestMapping("/api/inscriptions")
 public class InscriptionResource {
@@ -39,21 +39,19 @@ public class InscriptionResource {
     private String applicationName;
 
     private final InscriptionService inscriptionService;
-
     private final InscriptionRepository inscriptionRepository;
+    private final CursusServiceClient cursusServiceClient;
 
-    public InscriptionResource(InscriptionService inscriptionService, InscriptionRepository inscriptionRepository) {
+    public InscriptionResource(
+        InscriptionService inscriptionService,
+        InscriptionRepository inscriptionRepository,
+        CursusServiceClient cursusServiceClient
+    ) {
         this.inscriptionService = inscriptionService;
         this.inscriptionRepository = inscriptionRepository;
+        this.cursusServiceClient = cursusServiceClient;
     }
 
-    /**
-     * {@code POST  /inscriptions} : Create a new inscription.
-     *
-     * @param inscriptionDTO the inscriptionDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new inscriptionDTO, or with status {@code 400 (Bad Request)} if the inscription has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PostMapping("")
     public ResponseEntity<InscriptionDTO> createInscription(@Valid @RequestBody InscriptionDTO inscriptionDTO) throws URISyntaxException {
         LOG.debug("REST request to save Inscription : {}", inscriptionDTO);
@@ -66,16 +64,6 @@ public class InscriptionResource {
             .body(inscriptionDTO);
     }
 
-    /**
-     * {@code PUT  /inscriptions/:id} : Updates an existing inscription.
-     *
-     * @param id the id of the inscriptionDTO to save.
-     * @param inscriptionDTO the inscriptionDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated inscriptionDTO,
-     * or with status {@code 400 (Bad Request)} if the inscriptionDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the inscriptionDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/{id}")
     public ResponseEntity<InscriptionDTO> updateInscription(
         @PathVariable(value = "id", required = false) final Long id,
@@ -99,17 +87,6 @@ public class InscriptionResource {
             .body(inscriptionDTO);
     }
 
-    /**
-     * {@code PATCH  /inscriptions/:id} : Partial updates given fields of an existing inscription, field will ignore if it is null
-     *
-     * @param id the id of the inscriptionDTO to save.
-     * @param inscriptionDTO the inscriptionDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated inscriptionDTO,
-     * or with status {@code 400 (Bad Request)} if the inscriptionDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the inscriptionDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the inscriptionDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<InscriptionDTO> partialUpdateInscription(
         @PathVariable(value = "id", required = false) final Long id,
@@ -135,12 +112,6 @@ public class InscriptionResource {
         );
     }
 
-    /**
-     * {@code GET  /inscriptions} : get all the inscriptions.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of inscriptions in body.
-     */
     @GetMapping("")
     public ResponseEntity<List<InscriptionDTO>> getAllInscriptions(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Inscriptions");
@@ -149,25 +120,33 @@ public class InscriptionResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /inscriptions/:id} : get the "id" inscription.
-     *
-     * @param id the id of the inscriptionDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the inscriptionDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<InscriptionDTO> getInscription(@PathVariable("id") Long id) {
         LOG.debug("REST request to get Inscription : {}", id);
         Optional<InscriptionDTO> inscriptionDTO = inscriptionService.findOne(id);
+
+        inscriptionDTO.ifPresent(dto -> {
+            if (dto.getFiliereId() != null) {
+                try {
+                    FiliereDTO filiereDTO = cursusServiceClient.getFiliere(dto.getFiliereId());
+                    dto.setFiliere(filiereDTO);
+                } catch (Exception e) {
+                    LOG.error("Error fetching filiere details", e);
+                }
+            }
+            if (dto.getSemestreId() != null) {
+                try {
+                    SemestreDTO semestreDTO = cursusServiceClient.getSemestre(dto.getSemestreId());
+                    dto.setSemestre(semestreDTO);
+                } catch (Exception e) {
+                    LOG.error("Error fetching semestre details", e);
+                }
+            }
+        });
+
         return ResponseUtil.wrapOrNotFound(inscriptionDTO);
     }
 
-    /**
-     * {@code DELETE  /inscriptions/:id} : delete the "id" inscription.
-     *
-     * @param id the id of the inscriptionDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInscription(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete Inscription : {}", id);

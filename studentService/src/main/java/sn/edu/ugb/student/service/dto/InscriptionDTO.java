@@ -1,31 +1,23 @@
 package sn.edu.ugb.student.service.dto;
 
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-/**
- * A DTO for the {@link sn.edu.ugb.student.domain.Inscription} entity.
- */
-@SuppressWarnings("common-java:DuplicatedBlocks")
 public class InscriptionDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Long id;
-
-    @NotNull
     private Boolean enCours;
-
-    @NotNull
     private Instant dateInscription;
-
+    private Long etudiantId;
     private Long filiereId;
-
     private Long semestreId;
+    private FiliereDTO filiere;
+    private SemestreDTO semestre;
 
-    @NotNull
-    private EtudiantDTO etudiant;
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -50,6 +42,14 @@ public class InscriptionDTO implements Serializable {
         this.dateInscription = dateInscription;
     }
 
+    public Long getEtudiantId() {
+        return etudiantId;
+    }
+
+    public void setEtudiantId(Long etudiantId) {
+        this.etudiantId = etudiantId;
+    }
+
     public Long getFiliereId() {
         return filiereId;
     }
@@ -66,45 +66,44 @@ public class InscriptionDTO implements Serializable {
         this.semestreId = semestreId;
     }
 
-    public EtudiantDTO getEtudiant() {
-        return etudiant;
+    public FiliereDTO getFiliere() {
+        return filiere;
     }
 
-    public void setEtudiant(EtudiantDTO etudiant) {
-        this.etudiant = etudiant;
+    public void setFiliere(FiliereDTO filiere) {
+        this.filiere = filiere;
+    }
+
+    public SemestreDTO getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(SemestreDTO semestre) {
+        this.semestre = semestre;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof InscriptionDTO)) {
-            return false;
-        }
-
-        InscriptionDTO inscriptionDTO = (InscriptionDTO) o;
-        if (this.id == null) {
-            return false;
-        }
-        return Objects.equals(this.id, inscriptionDTO.id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InscriptionDTO that = (InscriptionDTO) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(id);
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "InscriptionDTO{" +
-            "id=" + getId() +
-            ", enCours='" + getEnCours() + "'" +
-            ", dateInscription='" + getDateInscription() + "'" +
-            ", filiereId=" + getFiliereId() +
-            ", semestreId=" + getSemestreId() +
-            ", etudiant=" + getEtudiant() +
-            "}";
+            "id=" + id +
+            ", enCours=" + enCours +
+            ", dateInscription=" + dateInscription +
+            ", etudiantId=" + etudiantId +
+            ", filiereId=" + filiereId +
+            ", semestreId=" + semestreId +
+            '}';
     }
 }
